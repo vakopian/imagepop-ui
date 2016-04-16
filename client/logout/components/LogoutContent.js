@@ -4,15 +4,19 @@ import { Input, Button } from 'react-bootstrap';
 import PageTemplate from '../../shared/components/PageTemplate.js';
 import styles from '../../../public/css/logout.css';
 import request from 'superagent-bluebird-promise';
+import {Auth, AUTH_HEADER} from '../../login/auth';
 
 export default class LogoutContent extends Component {
 
   state = {failedAttempt: false};
 
   componentDidMount = () =>{
+    const token = Auth.getToken();
+    Auth.setToken(null);
     var promise = request
       .post('/api/logout')
       .set('Accept', 'application/json')
+      .set(AUTH_HEADER, token)
       .promise()
       .then((res) =>{
         let resJson = JSON.parse(res.text);

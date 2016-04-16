@@ -8,6 +8,7 @@ import styles from '../../../public/css/login.css';
 import PubSub from 'pubsub-js';
 import {browserHistory} from 'react-router';
 import SocialLogins from '../../shared/components/SocialLogins.js';
+import {Auth} from '../auth';
 
 export default class LoginContent extends Component {
   state = {email: '', password: '', failedAttempt: false};
@@ -20,12 +21,14 @@ export default class LoginContent extends Component {
       .promise()
       .then((res) =>{
         let resJson = JSON.parse(res.text);
+        Auth.setToken(res.auth);
         PubSub.publish('LOGIN', true);
         this.setState({failedAttempt: false});
         browserHistory.push('/main');
       })
       .catch((error) =>{
         let resJson = JSON.parse(error.res.text);
+        Auth.setToken(null);
         console.log(resJson.message);
         this.setState({failedAttempt: true});
       });
