@@ -5,6 +5,7 @@ import PageTemplate from '../../shared/components/PageTemplate.js';
 import styles from '../../../public/css/register.css';
 import request from 'superagent-bluebird-promise';
 import {browserHistory} from 'react-router';
+import SocialLogins from '../../shared/components/SocialLogins.js';
 
 export default class RegisterContent extends Component {
   state = {email: '', password: '', failedText: ''};
@@ -65,6 +66,7 @@ export default class RegisterContent extends Component {
             placeholder="Re-enter password"/>
           <Button bsStyle="primary" className="registerBtn" onClick={this.handleClick}>REGISTER</Button>
           <div className="failLabel"> {this.state.failedText}</div>
+          <SocialLogins />
         </div>
       </PageTemplate>
     );
